@@ -2,8 +2,8 @@
 const addItems = document.querySelector('.add-items');
 // Grab list element
 const itemsList = document.querySelector('.plates');
-// Initialize list
-const items = [];
+// Initialize list with localStorage or blank array
+const items = JSON.parse(localStorage.getItem('items')) || [];
 
 function addItem(e) {
   // stop reload
@@ -19,6 +19,8 @@ function addItem(e) {
   items.push(item);
   // Populate list element with items
   populateList(items, itemsList);
+  // Convert from objects and save
+  localStorage.setItem('items', JSON.stringify(items));
   // Clear form
   this.reset();
 }
@@ -38,3 +40,6 @@ function populateList(plates = [], platesList) {
 
 // Listen for submit not click
 addItems.addEventListener('submit', addItem);
+
+// Show list
+populateList(items, itemsList);
