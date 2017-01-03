@@ -38,8 +38,25 @@ function populateList(plates = [], platesList) {
   }).join('');
 }
 
+function toggleDone(e) {
+  // Skip if not input click
+  if (!e.target.matches('input')) return;
+  // Grab target element
+  const el = e.target;
+  // Get index from element
+  const index = el.dataset.index;
+  // Toggle done status
+  items[index].done = !items[index].done;
+  // Convert from objects and save
+  localStorage.setItem('items', JSON.stringify(items));
+  // Update list
+  populateList(items, itemsList);
+}
+
 // Listen for submit not click
 addItems.addEventListener('submit', addItem);
+// Listen for checkbox on parent because item may not exist when listeners added
+itemsList.addEventListener('click', toggleDone);
 
 // Show list
 populateList(items, itemsList);
